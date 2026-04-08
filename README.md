@@ -1,4 +1,4 @@
-cat << 'EOF' > README.md
+
 # Demand Forecasting ML API (M5 Dataset)
 
 ## Overview
