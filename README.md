@@ -1,5 +1,6 @@
 
 # Demand Forecasting ML API (M5 Dataset)
+Production-style ML system for real-world demand forecasting with API deployment and Docker containerization.
 
 ## Overview
 End-to-end machine learning system for demand forecasting using real retail time-series data (Walmart M5 dataset).
