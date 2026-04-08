@@ -1,3 +1,4 @@
+cat << 'EOF' > README.md
 # Demand Forecasting ML API (M5 Dataset)
 
 ## Overview
@@ -14,107 +15,100 @@ This project demonstrates:
 ## Dataset
 - Source: Walmart M5 Forecasting Dataset
 - Data: Daily product-level sales
-- Approach: Single time-series modeling (one product)
+- Approach: Single time-series modeling
+
+Note: Dataset is not included due to GitHub file size limits. Download separately and place in data/.
 
 ---
 
 ## Feature Engineering
-The following features were created:
 
-### Lag Features
-- lag_1 (previous day)
-- lag_7 (weekly pattern)
+Lag Features:
+- lag_1
+- lag_7
 - lag_14
 
-### Rolling Statistics
+Rolling Features:
 - rolling_mean_7
 - rolling_mean_14
 
-### Calendar Features
+Calendar Features:
 - day_of_week
 - month
 
 ---
 
 ## Model
-- RandomForestRegressor (sklearn)
-- Trained on 80% of data
-- Tested on 20% (time-based split)
+- RandomForestRegressor (scikit-learn)
+- Time-based train/test split (80/20)
 
 ---
 
-## Evaluation Metrics
+## Metrics
 
-| Metric | Value |
-|--------|------|
-| MAE | 0.6895 |
-| RMSE | 0.8965 |
-| MAPE | 47.76% |
-| WAPE | 50.75% |
+MAE: 0.6895  
+RMSE: 0.8965  
+MAPE: 47.76%  
+WAPE: 50.75%  
 
-Note:
-MAPE/WAPE are adjusted due to sparse demand (many zero sales days).
+Note: MAPE/WAPE adjusted due to sparse demand.
 
 ---
 
 ## API Endpoints
 
-### Health Check
+Health:
 GET /health
-### Predict Demand
+
+Predict:
 POST /predict
+
 Example:
-```bash
 curl -X POST "http://127.0.0.1:8000/predict" \
 -H "Content-Type: application/json" \
--d '{
-  "lag_1": 10,
-  "lag_7": 8,
-  "lag_14": 9,
-  "rolling_mean_7": 9,
-  "rolling_mean_14": 10,
-  "day_of_week": 2,
-  "month": 3
-}'
+-d '{"lag_1":10,"lag_7":8,"lag_14":9,"rolling_mean_7":9,"rolling_mean_14":10,"day_of_week":2,"month":3}'
 
-Model Metrics
+Metrics:
 GET /metrics
 
-Run Locally
+---
+
+## Run Locally
 
 uvicorn app.main:app --reload
 
-Run with Docker
+---
 
-Build image
+## Run with Docker
 
 docker build -t demand-api-real .
-
-Run container
-
 docker run -p 8000:8000 demand-api-real
 
+---
 
-⸻
+## Project Structure
 
-Project Structure
+app/
+model/
+data/
+saved_models/
+logs/
+Dockerfile
+requirements.txt
 
-.
-├── app/
-├── model/
-├── data/
-├── saved_models/
-├── logs/
-├── Dockerfile
-├── requirements.txt
-└── README.md
+---
 
+## Key Learnings
+- Time-series forecasting with lag and rolling features
+- Handling sparse demand
+- FastAPI deployment
+- Docker containerization
 
-⸻
+---
 
-Key Learnings
-	•	Time-series forecasting using lag and rolling features
-	•	Handling sparse demand in retail datasets
-	•	Building production-style ML APIs using FastAPI
-	•	Containerizing ML services with Docker
-	•	Exposing model metrics for monitoring
+## Future Improvements
+- Multi-series forecasting
+- XGBoost
+- Hyperparameter tuning
+- Cloud deployment
+
